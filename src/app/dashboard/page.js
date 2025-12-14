@@ -27,7 +27,7 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-gray-800 font-sans">
       <div className="bg-white shadow-2xl rounded-2xl p-10 w-[90%] sm:w-[550px] text-center">
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">
-        🌟 Selamat Datang di Dashboard 🌟
+        🌟 Selamat Datang di Alwafi Dessert & Cookies 🌟
         </h1>
         <p className="text-gray-600 mb-6">
           Verifikasi OTP kamu berhasil! Kamu sekarang sudah masuk ke dalam sistem e-commerce.
@@ -78,7 +78,7 @@ export default function Dashboard() {
       <footer className="mt-10 text-sm text-gray-600 text-center">
         <p>
           🔒 Sistem E-Commerce Aman dengan 2FA —{" "}
-          <b>Tim Cloud & Cyber Security</b>
+          <b>Hanifah Nadiyah</b>
         </p>
         <p className="mt-1 text-gray-500">
           © 2025 E-Commerce Secure by Next.js & Firebase
