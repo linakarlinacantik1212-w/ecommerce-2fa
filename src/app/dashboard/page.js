@@ -28,7 +28,7 @@ export default function Dashboard() {
       <div className="bg-white shadow-2xl rounded-2xl p-10 w-[90%] sm:w-[550px] text-center">
         <h1 className="text-4xl font-extrabold text-blue-700 mb-4">
         🌟 Selamat Datang 🌟
-        Alwafi Dessert & Cookies
+        Eccomerce Anisah Product
         </h1>
         <p className="text-gray-600 mb-6">
           Verifikasi OTP kamu berhasil! Kamu sekarang sudah masuk ke dalam sistem e-commerce.
@@ -79,7 +79,7 @@ export default function Dashboard() {
       <footer className="mt-10 text-sm text-gray-600 text-center">
         <p>
           🔒 Sistem E-Commerce Aman dengan 2FA —{" "}
-          <b>Hanifah Nadiyah</b>
+          <b>Anisah Fadiyah Parinduri</b>
         </p>
         <p className="mt-1 text-gray-500">
           © 2025 E-Commerce Secure by Next.js & Firebase

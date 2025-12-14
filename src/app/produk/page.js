@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 
 // 🛍️ Daftar produk (pakai file .jpeg)
 const products = [
-  { id: 1, name: "Banana Cake", price: 60000, image: "/produk1.jpg" },
-  { id: 2, name: "Marmer Butter Cake", price: 100000, image: "/produk2.jpg" },
-  { id: 3, name: "strawberry sweet lumer", price: 15000, image: "/produk3.jpg" },
-  { id: 4, name: "cream puff vanila siram coklat", price: 4000, image: "/produk4.jpg" },
+  { id: 1, name: "Sepatu Sneakers", price: 350000, image: "/produk1.jpeg" },
+  { id: 2, name: "Tas Kulit Elegan", price: 420000, image: "/produk2.jpeg" },
+  { id: 3, name: "Jam Tangan Sport", price: 420000, image: "/produk3.jpeg" },
+  { id: 4, name: "Kemeja Pria Modern", price: 190000, image: "/produk4.jpeg" },
 ];
 
 export default function ProdukPage() {

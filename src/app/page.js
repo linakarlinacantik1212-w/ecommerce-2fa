@@ -34,7 +34,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="mt-12 text-sm text-gray-600">
         <p>
-          Dibuat dengan ❤️ oleh <b>Hanifah Nadiyah</b>
+          Dibuat dengan ❤️ oleh <b>Anisah Fadiyah Parinduri</b>
         </p>
       </footer>
     </div>
