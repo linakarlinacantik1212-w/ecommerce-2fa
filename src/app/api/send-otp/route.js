@@ -35,7 +35,7 @@ export async function POST(request) {
     },
     body: JSON.stringify({
       target,
-      message: `Kode OTP kamu adalah: *${otp}*\n\nBerlaku selama 5 menit. Jangan bagikan kode ini ke siapapun.`,
+      message: `🛍️ *Verifikasi Akun Anda*\n\nHalo! Kami menerima permintaan login ke akun Anda di *Ecommerce 2FA*.\n\nGunakan kode OTP berikut untuk melanjutkan:\n\n🔐 *${otp}*\n\n⏰ Kode berlaku selama *5 menit*\n⚠️ Jangan bagikan kode ini kepada siapapun, termasuk pihak yang mengaku dari tim kami.\n\n_Jika kamu tidak merasa melakukan permintaan ini, abaikan pesan ini._\n\n— Tim Ecommerce 2FA`,
       countryCode: "62",
     }),
   });
