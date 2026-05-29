@@ -1,44 +1,40 @@
 "use client";
-import { useState, useEffect } from "react";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import app from "../firebaseConfig";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function TwoFactorAuth() {
-  const auth = getAuth(app);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "normal",
-          callback: () => console.log("reCAPTCHA verified"),
-        }
-      );
-    }
-  }, [auth]);
-
   const sendOTP = async () => {
     if (!phoneNumber.startsWith("+62")) {
-      setMessage("Gunakan format nomor dengan +62 (contoh: +6281234567890)");
+      setMessage("Gunakan format +62 (contoh: +6281234567890)");
       return;
     }
 
     setLoading(true);
     try {
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
-      setConfirmationResult(confirmation);
-      setMessage("✅ Kode OTP telah dikirim ke nomor Anda!");
-    } catch (error) {
-      setMessage("❌ Gagal mengirim OTP: " + error.message);
+      const res = await fetch("/api/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessage("❌ " + data.error);
+        return;
+      }
+
+      setOtpSent(true);
+      setMessage("✅ Kode OTP telah dikirim ke WhatsApp kamu!");
+    } catch {
+      setMessage("❌ Terjadi kesalahan. Coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -47,11 +43,23 @@ export default function TwoFactorAuth() {
   const verifyOTP = async () => {
     setLoading(true);
     try {
-      await confirmationResult.confirm(otp);
-      setMessage("✅ Verifikasi berhasil!");
+      const res = await fetch("/api/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber, otp }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessage("❌ " + data.error);
+        return;
+      }
+
+      setMessage("✅ Verifikasi berhasil! Mengalihkan...");
       setTimeout(() => router.push("/dashboard"), 1000);
     } catch {
-      setMessage("⚠️ Kode OTP salah atau kadaluarsa.");
+      setMessage("❌ Terjadi kesalahan. Coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -62,12 +70,10 @@ export default function TwoFactorAuth() {
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-[90%] sm:w-[400px] text-center">
         <h2 className="text-3xl font-bold text-blue-700 mb-4">Verifikasi OTP 🔐</h2>
         <p className="text-gray-600 mb-6">
-          Masukkan nomor HP Anda untuk mendapatkan kode verifikasi.
+          Masukkan nomor HP untuk mendapatkan kode OTP via WhatsApp.
         </p>
 
-        <div id="recaptcha-container" className="flex justify-center mb-4"></div>
-
-        {!confirmationResult ? (
+        {!otpSent ? (
           <div className="space-y-4">
             <input
               type="text"
@@ -83,11 +89,12 @@ export default function TwoFactorAuth() {
                 loading ? "bg-blue-300" : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
-              {loading ? "Mengirim OTP..." : "Kirim OTP"}
+              {loading ? "Mengirim OTP..." : "Kirim OTP via WhatsApp"}
             </button>
           </div>
         ) : (
           <div className="space-y-4">
+            <p className="text-sm text-gray-500">Kode dikirim ke: <strong>{phoneNumber}</strong></p>
             <input
               type="text"
               placeholder="Masukkan Kode OTP"
@@ -104,12 +111,16 @@ export default function TwoFactorAuth() {
             >
               {loading ? "Memverifikasi..." : "Verifikasi"}
             </button>
+            <button
+              onClick={() => { setOtpSent(false); setMessage(""); }}
+              className="text-sm text-blue-500 hover:underline"
+            >
+              Ganti nomor / Kirim ulang
+            </button>
           </div>
         )}
 
-        {message && (
-          <p className="text-sm text-gray-700 mt-4">{message}</p>
-        )}
+        {message && <p className="text-sm text-gray-700 mt-4">{message}</p>}
       </div>
     </div>
   );
